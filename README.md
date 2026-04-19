@@ -28,7 +28,7 @@
 | 9 | [拿幸Meme工厂](assets/meme-prompts/拿幸Meme工厂.md) | AI生成图片Prompt，用于Midjourney/Flux等工具 |
 | 10 | [每日拿幸挑战](scripts/每日挑战生成器.py) | Python脚本生成每日挑战，让你的拿幸更有趣 |
 | 11 | [拿幸歌词库](lyrics/拿幸教歌词库.md) | 镇库神曲《拿幸進行曲》完整歌词，又洗脑又疗愈 |
-| 12 | [节目检索表](docs/节目检索表.md) | 老王976期视频索引，快速查找想要的节目 |
+| 12 | [节目检索表](docs/节目检索表.md) | 老王976期视频索引，快速查找想要的节目 ｜ **[🔍 在线搜索引擎（点击直达）](https://davidwuw0811-boop.github.io/NaXingJiao-AI/docs/search.html)** |
 
 **玩法**：随便fork → PR你的烂梗 → 别较真 → **玩得开心最重要**👍
 
