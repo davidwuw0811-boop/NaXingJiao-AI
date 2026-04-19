@@ -39,6 +39,35 @@
             z-index: 1;
         }
 
+        .back-button-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff00ff, #00ccff);
+            border: 2px solid #ff00ff;
+            border-radius: 4px;
+            color: #0a0e27;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #ffff00, #ff00ff);
+            border-color: #ffff00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -271,6 +300,9 @@
 </head>
 <body>
     <div class="container">
+        <div class="back-button-container">
+            <a href="https://github.com/davidwuw0811-boop/NaXingJiao-AI" class="back-button" target="_blank">← 返回仓库首页</a>
+        </div>
         <header>
             <h1 class="flicker">🪐 拿幸教节目搜索引擎</h1>
             <div class="subtitle">Everything both nothing！</div>
