@@ -304,7 +304,7 @@
             <a href="https://github.com/davidwuw0811-boop/NaXingJiao-AI" class="back-button" target="_blank">← 返回仓库首页</a>
         </div>
         <header>
-            <h1 class="flicker">🪐 拿幸教节目搜索引擎</h1>
+            <h1 class="flicker">🐊 拿幸教节目搜索引擎（真实直播回放）</h1>
             <div class="subtitle">Everything both nothing！</div>
             <div class="tagline">快速查找老王的节目，一切都是拿幸</div>
         </header>
@@ -322,7 +322,7 @@
         </div>
 
         <div class="stats">
-            <span id="resultCount">共 51 期节目</span>
+            <span id="resultCount">共 20 期节目</span>
         </div>
 
         <div class="results-container">
@@ -338,57 +338,27 @@
     <script>
         // 节目数据
         const episodes = [
-            { id: 1, title: "老王每天逗你玩儿！感谢二创频道！", link: "https://www.youtube.com/watch?v=0pKUIUZc2Yw", time: "23小时前", views: "9.9K" },
-            { id: 2, title: "Damn! Lin Bai is speaking Taiwanese now! Thanks to the Mandarin boss for the fan-made channel!", link: "https://www.youtube.com/watch?v=-ekkxGk3yQg", time: "3周前", views: "28K" },
-            { id: 3, title: "Dubai, Dubai, how could it not fall? Can you really do without believing in metaphysics?", link: "https://www.youtube.com/watch?v=-kJmv2YVx3I", time: "4周前", views: "39K" },
-            { id: 4, title: "Pang Donglai and Da Lao Wang sang a song to thank Man Daren from the Second Creation Channel.", link: "https://www.youtube.com/watch?v=Lb3vz6ynzbA", time: "1个月前", views: "49K" },
-            { id: 5, title: "The most authoritative CCTV military expert's report on the combat capabilities of the Chinese an...", link: "https://www.youtube.com/watch?v=0oefxU6Z7Ec", time: "1个月前", views: "72K" },
-            { id: 6, title: "Why does Bitcoin/Gold often crash sharply right after you buy it?｜关注NOTHING wang频道学地道金融英语！", link: "https://www.youtube.com/watch?v=Po4PW-jmQ3w", time: "2个月前", views: "43K" },
-            { id: 7, title: "Lao Wang is here! Finally, I decided to start a YouTube channel: Lao Wang is Here - First Broadca...", link: "https://www.youtube.com/watch?v=igX1Q4JzFQE", time: "2个月前", views: "41K" },
-            { id: 8, title: "被删绝版：十堰事件预知梦｜我亲历的石家庄靳如超和鞍山大事件｜孩子躺平混日子不上学怎么办｜男人如何应对绿帽子", link: "https://www.youtube.com/watch?v=8LCMXK7GKYQ", time: "5个月前", views: "173K" },
-            { id: 9, title: "老王厨房：土豆烧牛肉 | 复刻的时候直接跳到第10分钟技术总结", link: "https://www.youtube.com/watch?v=jwNNXSwkQZU", time: "6个月前", views: "98K" },
-            { id: 10, title: "翡翠投资大揭秘（下）造假正邪两派与中央交易所的遗憾", link: "https://www.youtube.com/watch?v=gbmH-VEYtOw", time: "6个月前", views: "16K" },
-            { id: 11, title: "老王厨房：热炒青椒牛肉 | 技术总结变幻各种热炒｜低盐无添加剂养肾护心健康菜谱", link: "https://www.youtube.com/watch?v=hlj2iGzse6k", time: "6个月前", views: "44K" },
-            { id: 12, title: "老王厨房：卤牛舌 | 5分钟实现牛舌自由后附技术总结", link: "https://www.youtube.com/watch?v=uAQk-SyC17E", time: "6个月前", views: "43K" },
-            { id: 13, title: "翡翠投资大揭秘（上）底层代码ABC", link: "https://www.youtube.com/watch?v=xSnY2JJ6Ymo", time: "6个月前", views: "28K" },
-            { id: 14, title: "恒大破产清盘金融专业答疑解惑", link: "https://www.youtube.com/watch?v=YpFtTRH7BL4", time: "6个月前", views: "17K" },
-            { id: 15, title: "恒大清盘的秘密，一鲸落万物生", link: "https://www.youtube.com/watch?v=hCD3eCUe6c4", time: "6个月前", views: "36K" },
-            { id: 16, title: "死后亡灵之路", link: "https://www.youtube.com/watch?v=nLo8thX0JBQ", time: "6个月前", views: "27K" },
-            { id: 17, title: "前首富黄光裕：入场有聪明，离场无智慧", link: "https://www.youtube.com/watch?v=mrn-K2E86Xc", time: "6个月前", views: "39K" },
-            { id: 18, title: "钻石的封神之路", link: "https://www.youtube.com/watch?v=Fznap5vJ5PA", time: "6个月前", views: "9.9K" },
-            { id: 19, title: "戴梦得，嘎然而止的钻石帝国", link: "https://www.youtube.com/watch?v=7HrmuQAkg6c", time: "6个月前", views: "18K" },
-            { id: 20, title: "中国钻石投资历史", link: "https://www.youtube.com/watch?v=ZVXalYZ921I", time: "6个月前", views: "8.9K" },
-            { id: 21, title: "黄金讲坛（五）美中黄金博弈", link: "https://www.youtube.com/watch?v=sZM2lkDwPAQ", time: "6个月前", views: "29K" },
-            { id: 22, title: "中国房地产下行 穆迪降低中国评级", link: "https://www.youtube.com/watch?v=CaHk-2apXhE", time: "7个月前", views: "18K" },
-            { id: 23, title: "特斯拉VS比亚迪", link: "https://www.youtube.com/watch?v=7UAOydO6CjA", time: "7个月前", views: "34K" },
-            { id: 24, title: "星舰与星链无可匹敌的统治力", link: "https://www.youtube.com/watch?v=XhCjH3mOYfM", time: "7个月前", views: "21K" },
-            { id: 25, title: "特斯拉 AI觉醒", link: "https://www.youtube.com/watch?v=DKGSxwZY40A", time: "7个月前", views: "32K" },
-            { id: 26, title: "2016股灾背后的真相", link: "https://www.youtube.com/watch?v=1aM2gz2nz4g", time: "7个月前", views: "20K" },
-            { id: 27, title: "抛售房地产的时间窗口", link: "https://www.youtube.com/watch?v=TDV6ZYJACtw", time: "7个月前", views: "22K" },
-            { id: 28, title: "中国房地产的三颗核弹", link: "https://www.youtube.com/watch?v=kipZXg7PXzg", time: "7个月前", views: "44K" },
-            { id: 29, title: "没钱也能移民，穷人移民最佳捷径", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "8.5K" },
-            { id: 30, title: "印度人素质真的低吗？｜老王亲历", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 31, title: "10亿做多黄金惨遭爆仓！如今迷信玄学", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 32, title: "郑丽文访问北京全程紧张｜国民党大减分？", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 33, title: "缅北金三角长篇叙事终章｜果敢王彭家声", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "106K" },
-            { id: 34, title: "缅北孤军李弥李国辉结局", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "103K" },
-            { id: 35, title: "回忆昨天真实生活｜推演中国未来十年", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "71K" },
-            { id: 36, title: "中美两个草台班子在下棋｜不要彩礼", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 37, title: "闲鱼职业受害人与教友天仙配", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 38, title: "大军压境伊朗台海防守空虚｜冒险攻台", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 39, title: "川普贸易战必然引发美国通胀", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 40, title: "精品录播第10期：数字货币干货大揭秘｜投资防骗指南", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 41, title: "精品录播第9期：混浊的水晶球资本市场探秘", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 42, title: "婚姻的幸福密码｜优雅的女人最好命", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "7.4K" },
-            { id: 43, title: "移民改命真实案例，海外工作建议｜金价回调抄底", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "8.5K" },
-            { id: 44, title: "美伊谈判掀桌子｜中国成最大赢家？｜川普被逼到墙角", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "64K" },
-            { id: 45, title: "谎言下的伊朗局势｜有的中国人真是世界毒瘤", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "106K" },
-            { id: 46, title: "伊朗军舰惨遭击沉｜新华社还在撒谎", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "103K" },
-            { id: 47, title: "老王谈未来女婿看法｜彩礼到底要不要？｜教友求助", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "7.4K" },
-            { id: 48, title: "VIP直播：解放军台海军情报告｜一线兵力配置质变", link: "https://www.youtube.com/@dlw2023/videos", time: "3天前", views: "-" },
-            { id: 49, title: "为什么战争一定吃人？长春围城背后的残酷机制", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 50, title: "于东来你也咬｜你们有没有点良心", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
-            { id: 51, title: "感动台湾｜跟回了家一样", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" }
+            { id: 1, title: "周末玄学故事会：自尽者的轮回实录｜法国猫灵者｜秘鲁死藤水之旅｜鬼推车害人的诡事", link: "https://www.youtube.com/watch?v=ybHsI7fc9kA", time: "1天前", views: "6.9万" },
+            { id: 2, title: "VIP直播：解放军台海军情报告｜1，为什么一线兵力配置发生了质变？", link: "https://www.youtube.com/watch?v=b6piWWnsHkA", time: "3天前", views: "会员专享" },
+            { id: 3, title: "长夜漫漫无心睡眠，聊聊散天：答网友问我闺女被穷小子拐跑了怎么办？", link: "https://www.youtube.com/@dlw2023/videos", time: "4天前", views: "7.8万" },
+            { id: 4, title: "美伊谈崩，利好中国，台湾大…", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 5, title: "郑丽文饮鸩止渴，习近平身高成谜｜周末玄学故事会", link: "https://www.youtube.com/watch?v=HwXu1vHaICk", time: "5天前", views: "18万" },
+            { id: 6, title: "VIP直播：台湾行考察结束了说点秘密，习总此生打台湾这回没戏了", link: "https://www.youtube.com/watch?v=7TqKyRwunLI", time: "2周前", views: "15万" },
+            { id: 7, title: "VIP直播：揭秘共产党跨境控制王志安们的高招｜揭秘反共大V为什么突然亲共？", link: "https://www.youtube.com/watch?v=hJPNSC_4qvE", time: "3周前", views: "13万" },
+            { id: 8, title: "VIP直播：女企业家的最高境界之大耍陈丽华", link: "https://www.youtube.com/watch?v=QcwmxFnUTvY", time: "1个月前", views: "会员专享" },
+            { id: 9, title: "老王来了：鬼推车害人事件｜通灵师真实经历｜诡事三则", link: "https://www.youtube.com/watch?v=ybHsI7fc9kA", time: "最近", views: "6.9万" },
+            { id: 10, title: "老王来了：秘鲁喝死藤水真实感受｜萨满禁忌秘药｜千万别轻易尝试", link: "https://www.youtube.com/watch?v=mngeUyDRh5Y", time: "1天前", views: "-" },
+            { id: 11, title: "老王来了：陆尉闯中领馆切腹未遂｜小粉红炸美军基地被重判｜世界越来越极端？", link: "https://www.youtube.com/watch?v=K-Jylb7p4I4", time: "3天前", views: "-" },
+            { id: 12, title: "老王来了：移民最大的难题，父母养老的残酷现实！", link: "https://www.youtube.com/watch?v=v8SrHQKuh58", time: "5天前", views: "-" },
+            { id: 13, title: "老王来了：2028年全球失业潮爆发？｜你必须做好最坏准备｜AI", link: "https://www.youtube.com/watch?v=Rw3FPxwTcDY", time: "1个月前", views: "10万+" },
+            { id: 14, title: "老王来了：哈梅内伊确认身亡｜美国出手仅用一天｜伊朗政权雪崩", link: "https://www.youtube.com/watch?v=Jo0IQO6CwjQ", time: "最近", views: "-" },
+            { id: 15, title: "老王来了：台湾阶级固化严重｜台湾年轻人如何破局改命？", link: "https://www.youtube.com/watch?v=YGfKuwiYR8o", time: "1个月前", views: "-" },
+            { id: 16, title: "大陆会彻底封禁VPN？｜翻墙到底安不安全｜教友来信求助", link: "https://www.youtube.com/watch?v=cPS9qQBvI4U", time: "7天前", views: "-" },
+            { id: 17, title: "老王来了：黄仁勋突然破防！富二代争夺家产欲背刺亲爹", link: "https://www.youtube.com/watch?v=qmuyZGEYepc", time: "1天前", views: "-" },
+            { id: 18, title: "老王来了：\"抓线头\" 但抓不住机会 \"欲望\"击穿原则 \"浮躁\"是创业失败的主因", link: "https://www.youtube.com/watch?v=-G5k8ektjtE", time: "最近", views: "-" },
+            { id: 19, title: "老王来了：93阅兵三大杀器曝光｜中国军工突然崛起？赶超美国", link: "https://www.youtube.com/watch?v=Y5lv9uqoZJ8", time: "7个月前", views: "-" },
+            { id: 20, title: "信号测试", link: "https://www.youtube.com/watch?v=_3bDdTDidto", time: "4个月前", views: "8.4万" },
+
         ];
 
         function search() {
