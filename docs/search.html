@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拿幸教节目搜索引擎 🪐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1428 100%);
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* 赛博朋克背景效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 0, 255, 0.03) 0px,
+                rgba(255, 0, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 2px solid #00ff88;
+            border-radius: 8px;
+            background: rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2), inset 0 0 10px rgba(0, 255, 136, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff88, 0 0 20px #ff00ff;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #ffff00;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px #ffff00;
+        }
+
+        .tagline {
+            font-size: 0.9em;
+            color: #00ccff;
+            margin-top: 10px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            max-width: 500px;
+            padding: 12px 15px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 4px;
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .search-box:focus {
+            border-color: #ffff00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5), inset 0 0 10px rgba(255, 255, 0, 0.1);
+            color: #ffff00;
+        }
+
+        .search-box::placeholder {
+            color: rgba(0, 255, 136, 0.5);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: 2px solid #00ff88;
+            border-radius: 4px;
+            color: #0a0e27;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ffff00, #ff00ff);
+            border-color: #ffff00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .stats {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00ccff;
+            font-size: 0.95em;
+        }
+
+        .results-container {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ff00ff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2), inset 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+
+        .result-item {
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 4px solid #00ff88;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .result-item:hover {
+            background: rgba(0, 255, 136, 0.15);
+            border-left-color: #ffff00;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+            transform: translateX(5px);
+        }
+
+        .result-number {
+            display: inline-block;
+            background: #ff00ff;
+            color: #0a0e27;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+
+        .result-title {
+            color: #ffff00;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            color: #00ccff;
+        }
+
+        .result-link {
+            color: #00ff88;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .result-link:hover {
+            color: #ffff00;
+            text-decoration: underline;
+            text-shadow: 0 0 10px #ffff00;
+        }
+
+        .result-time {
+            color: #ff00ff;
+        }
+
+        .result-views {
+            color: #00ccff;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: #ff00ff;
+            font-size: 1.2em;
+        }
+
+        .no-results-emoji {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #00ccff;
+            border-top: 2px solid #00ff88;
+            font-size: 0.9em;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.3);
+            color: #ffff00;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .result-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        /* 闪烁效果 */
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 10px #00ff88, 0 0 20px #ff00ff;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        .flicker {
+            animation: flicker 3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="flicker">🪐 拿幸教节目搜索引擎</h1>
+            <div class="subtitle">Everything both nothing！</div>
+            <div class="tagline">快速查找老王的节目，一切都是拿幸</div>
+        </header>
+
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-box" 
+                placeholder="搜索关键词... 比如：玄学、伊朗、移民、鬼故事、投资"
+                autocomplete="off"
+            >
+            <button class="btn" onclick="search()">🔍 搜索</button>
+            <button class="btn" onclick="clearSearch()" style="background: linear-gradient(135deg, #ff00ff, #ff6600); border-color: #ff00ff;">🔄 清空</button>
+        </div>
+
+        <div class="stats">
+            <span id="resultCount">共 51 期节目</span>
+        </div>
+
+        <div class="results-container">
+            <div id="results"></div>
+        </div>
+
+        <footer>
+            <p>拿幸教AI分舵 | 老王来了 @dlw2023 | 教主 @dlw20202020</p>
+            <p style="margin-top: 10px; color: #ff00ff;">玩得开心最重要👍 | Everything both nothing！</p>
+        </footer>
+    </div>
+
+    <script>
+        // 节目数据
+        const episodes = [
+            { id: 1, title: "老王每天逗你玩儿！感谢二创频道！", link: "https://www.youtube.com/watch?v=0pKUIUZc2Yw", time: "23小时前", views: "9.9K" },
+            { id: 2, title: "Damn! Lin Bai is speaking Taiwanese now! Thanks to the Mandarin boss for the fan-made channel!", link: "https://www.youtube.com/watch?v=-ekkxGk3yQg", time: "3周前", views: "28K" },
+            { id: 3, title: "Dubai, Dubai, how could it not fall? Can you really do without believing in metaphysics?", link: "https://www.youtube.com/watch?v=-kJmv2YVx3I", time: "4周前", views: "39K" },
+            { id: 4, title: "Pang Donglai and Da Lao Wang sang a song to thank Man Daren from the Second Creation Channel.", link: "https://www.youtube.com/watch?v=Lb3vz6ynzbA", time: "1个月前", views: "49K" },
+            { id: 5, title: "The most authoritative CCTV military expert's report on the combat capabilities of the Chinese an...", link: "https://www.youtube.com/watch?v=0oefxU6Z7Ec", time: "1个月前", views: "72K" },
+            { id: 6, title: "Why does Bitcoin/Gold often crash sharply right after you buy it?｜关注NOTHING wang频道学地道金融英语！", link: "https://www.youtube.com/watch?v=Po4PW-jmQ3w", time: "2个月前", views: "43K" },
+            { id: 7, title: "Lao Wang is here! Finally, I decided to start a YouTube channel: Lao Wang is Here - First Broadca...", link: "https://www.youtube.com/watch?v=igX1Q4JzFQE", time: "2个月前", views: "41K" },
+            { id: 8, title: "被删绝版：十堰事件预知梦｜我亲历的石家庄靳如超和鞍山大事件｜孩子躺平混日子不上学怎么办｜男人如何应对绿帽子", link: "https://www.youtube.com/watch?v=8LCMXK7GKYQ", time: "5个月前", views: "173K" },
+            { id: 9, title: "老王厨房：土豆烧牛肉 | 复刻的时候直接跳到第10分钟技术总结", link: "https://www.youtube.com/watch?v=jwNNXSwkQZU", time: "6个月前", views: "98K" },
+            { id: 10, title: "翡翠投资大揭秘（下）造假正邪两派与中央交易所的遗憾", link: "https://www.youtube.com/watch?v=gbmH-VEYtOw", time: "6个月前", views: "16K" },
+            { id: 11, title: "老王厨房：热炒青椒牛肉 | 技术总结变幻各种热炒｜低盐无添加剂养肾护心健康菜谱", link: "https://www.youtube.com/watch?v=hlj2iGzse6k", time: "6个月前", views: "44K" },
+            { id: 12, title: "老王厨房：卤牛舌 | 5分钟实现牛舌自由后附技术总结", link: "https://www.youtube.com/watch?v=uAQk-SyC17E", time: "6个月前", views: "43K" },
+            { id: 13, title: "翡翠投资大揭秘（上）底层代码ABC", link: "https://www.youtube.com/watch?v=xSnY2JJ6Ymo", time: "6个月前", views: "28K" },
+            { id: 14, title: "恒大破产清盘金融专业答疑解惑", link: "https://www.youtube.com/watch?v=YpFtTRH7BL4", time: "6个月前", views: "17K" },
+            { id: 15, title: "恒大清盘的秘密，一鲸落万物生", link: "https://www.youtube.com/watch?v=hCD3eCUe6c4", time: "6个月前", views: "36K" },
+            { id: 16, title: "死后亡灵之路", link: "https://www.youtube.com/watch?v=nLo8thX0JBQ", time: "6个月前", views: "27K" },
+            { id: 17, title: "前首富黄光裕：入场有聪明，离场无智慧", link: "https://www.youtube.com/watch?v=mrn-K2E86Xc", time: "6个月前", views: "39K" },
+            { id: 18, title: "钻石的封神之路", link: "https://www.youtube.com/watch?v=Fznap5vJ5PA", time: "6个月前", views: "9.9K" },
+            { id: 19, title: "戴梦得，嘎然而止的钻石帝国", link: "https://www.youtube.com/watch?v=7HrmuQAkg6c", time: "6个月前", views: "18K" },
+            { id: 20, title: "中国钻石投资历史", link: "https://www.youtube.com/watch?v=ZVXalYZ921I", time: "6个月前", views: "8.9K" },
+            { id: 21, title: "黄金讲坛（五）美中黄金博弈", link: "https://www.youtube.com/watch?v=sZM2lkDwPAQ", time: "6个月前", views: "29K" },
+            { id: 22, title: "中国房地产下行 穆迪降低中国评级", link: "https://www.youtube.com/watch?v=CaHk-2apXhE", time: "7个月前", views: "18K" },
+            { id: 23, title: "特斯拉VS比亚迪", link: "https://www.youtube.com/watch?v=7UAOydO6CjA", time: "7个月前", views: "34K" },
+            { id: 24, title: "星舰与星链无可匹敌的统治力", link: "https://www.youtube.com/watch?v=XhCjH3mOYfM", time: "7个月前", views: "21K" },
+            { id: 25, title: "特斯拉 AI觉醒", link: "https://www.youtube.com/watch?v=DKGSxwZY40A", time: "7个月前", views: "32K" },
+            { id: 26, title: "2016股灾背后的真相", link: "https://www.youtube.com/watch?v=1aM2gz2nz4g", time: "7个月前", views: "20K" },
+            { id: 27, title: "抛售房地产的时间窗口", link: "https://www.youtube.com/watch?v=TDV6ZYJACtw", time: "7个月前", views: "22K" },
+            { id: 28, title: "中国房地产的三颗核弹", link: "https://www.youtube.com/watch?v=kipZXg7PXzg", time: "7个月前", views: "44K" },
+            { id: 29, title: "没钱也能移民，穷人移民最佳捷径", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "8.5K" },
+            { id: 30, title: "印度人素质真的低吗？｜老王亲历", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 31, title: "10亿做多黄金惨遭爆仓！如今迷信玄学", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 32, title: "郑丽文访问北京全程紧张｜国民党大减分？", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 33, title: "缅北金三角长篇叙事终章｜果敢王彭家声", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "106K" },
+            { id: 34, title: "缅北孤军李弥李国辉结局", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "103K" },
+            { id: 35, title: "回忆昨天真实生活｜推演中国未来十年", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "71K" },
+            { id: 36, title: "中美两个草台班子在下棋｜不要彩礼", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 37, title: "闲鱼职业受害人与教友天仙配", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 38, title: "大军压境伊朗台海防守空虚｜冒险攻台", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 39, title: "川普贸易战必然引发美国通胀", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 40, title: "精品录播第10期：数字货币干货大揭秘｜投资防骗指南", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 41, title: "精品录播第9期：混浊的水晶球资本市场探秘", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 42, title: "婚姻的幸福密码｜优雅的女人最好命", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "7.4K" },
+            { id: 43, title: "移民改命真实案例，海外工作建议｜金价回调抄底", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "8.5K" },
+            { id: 44, title: "美伊谈判掀桌子｜中国成最大赢家？｜川普被逼到墙角", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "64K" },
+            { id: 45, title: "谎言下的伊朗局势｜有的中国人真是世界毒瘤", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "106K" },
+            { id: 46, title: "伊朗军舰惨遭击沉｜新华社还在撒谎", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "103K" },
+            { id: 47, title: "老王谈未来女婿看法｜彩礼到底要不要？｜教友求助", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "7.4K" },
+            { id: 48, title: "VIP直播：解放军台海军情报告｜一线兵力配置质变", link: "https://www.youtube.com/@dlw2023/videos", time: "3天前", views: "-" },
+            { id: 49, title: "为什么战争一定吃人？长春围城背后的残酷机制", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 50, title: "于东来你也咬｜你们有没有点良心", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" },
+            { id: 51, title: "感动台湾｜跟回了家一样", link: "https://www.youtube.com/@dlw2023/videos", time: "最近", views: "-" }
+        ];
+
+        function search() {
+            const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+            const resultsDiv = document.getElementById('results');
+            
+            if (!keyword) {
+                displayAllResults();
+                return;
+            }
+
+            const filtered = episodes.filter(ep => 
+                ep.title.toLowerCase().includes(keyword)
+            );
+
+            if (filtered.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-emoji">🪐</div>
+                        <p>没有找到相关节目...</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">试试其他关键词？一切都是拿幸！</p>
+                    </div>
+                `;
+                document.getElementById('resultCount').textContent = `搜索结果：0 期`;
+            } else {
+                displayResults(filtered);
+                document.getElementById('resultCount').textContent = `搜索结果：${filtered.length} 期`;
+            }
+        }
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = results.map(ep => `
+                <div class="result-item" onclick="openLink('${ep.link}')">
+                    <div>
+                        <span class="result-number">#${ep.id}</span>
+                        <span class="result-title">${highlightKeyword(ep.title)}</span>
+                    </div>
+                    <div class="result-meta">
+                        <a href="${ep.link}" class="result-link" target="_blank" onclick="event.stopPropagation()">🔗 观看视频</a>
+                        <span class="result-time">⏰ ${ep.time}</span>
+                        <span class="result-views">👁️ ${ep.views}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayAllResults() {
+            displayResults(episodes);
+            document.getElementById('resultCount').textContent = `共 ${episodes.length} 期节目`;
+        }
+
+        function highlightKeyword(title) {
+            const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!keyword) return title;
+            
+            const regex = new RegExp(`(${keyword})`, 'gi');
+            return title.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function openLink(url) {
+            window.open(url, '_blank');
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            displayAllResults();
+        }
+
+        // 回车键搜索
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                search();
+            }
+        });
+
+        // 页面加载时显示所有结果
+        window.addEventListener('load', function() {
+            displayAllResults();
+        });
+
+        // 实时搜索（可选）
+        document.getElementById('searchInput').addEventListener('input', function() {
+            if (this.value.length > 0) {
+                search();
+            } else {
+                displayAllResults();
+            }
+        });
+    </script>
+</body>
+</html>

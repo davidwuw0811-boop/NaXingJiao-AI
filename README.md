@@ -9,6 +9,8 @@
 **镇库之宝**：  
 [david_ww1126 的拿幸教神曲](https://x.com/david_ww1126/status/2044428450912739522) —— 《拿幸進行曲（Everything Both Nothing）》
 
+**🔍 [拿幸教节目搜索引擎 → 快速查找老王的51期节目](docs/search.html)**
+
 ---
 
 ## 🎯 12大拿幸板块（人人都是教主，随便fork、PR、玩坏）
